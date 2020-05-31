@@ -1,12 +1,8 @@
-# Unty_TSKT_Graphic
+# install
 
-Packages/manifest.json
+Unity Package Manager
 
-```json
-{
-  "dependencies": {
-    "com.github.enue.tskt_graphic": "https://github.com/enue/Unity_TSKT_Graphic.git",
-  }
-}
-```
+add package from git url
+
++ `https://github.com/enue/Unity_TSKT_Graphic.git?path=Assets/Package`
 
