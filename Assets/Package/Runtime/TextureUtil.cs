@@ -19,5 +19,18 @@ namespace TSKT
             RenderTexture.ReleaseTemporary(rt);
             RenderTexture.active = null;
         }
+
+        public static IEnumerator CaptureScreenshot(int width, int height, System.Action<Texture2D> callback)
+        {
+            // UniTaskのWaitForEndOfFrameはCaptureScreenshotAsTextureに非対応なのでコルーチンを使う
+            yield return new WaitForEndOfFrame();
+            var texture = ScreenCapture.CaptureScreenshotAsTexture();
+
+            if (texture.width != width || texture.height != height)
+            {
+                Resize(ref texture, width, height);
+            }
+            callback(texture);
+        }
     }
 }
