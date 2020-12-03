@@ -12,47 +12,102 @@ namespace TSKT
 
         [SerializeField]
         bool scaleWithScreenSize = true;
+        public bool ScaleWithScreenSize
+        {
+            get => scaleWithScreenSize;
+            set { scaleWithScreenSize = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         UnityEngine.UI.CanvasScaler.ScreenMatchMode screenMatchMode = UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand;
+        public UnityEngine.UI.CanvasScaler.ScreenMatchMode ScreenMatchMode
+        {
+            get => screenMatchMode;
+            set { screenMatchMode = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         [Range(0f, 1f)]
         float match = 0f;
+        public float Match
+        {
+            get => match;
+            set { match = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         Vector2Int referenceResolution = new Vector2Int(1920, 1080);
+        public Vector2Int ReferenceResolution
+        {
+            get => referenceResolution;
+            set { referenceResolution = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         Vector2 minAnchorPosition = new Vector2(0.5f, 0.5f);
+        public Vector2 MinAnchorPosition
+        {
+            get => minAnchorPosition;
+            set { minAnchorPosition = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         Vector2 maxAnchorPosition = new Vector2(0.5f, 0.5f);
+        public Vector2 MaxAnchorPosition
+        {
+            get => maxAnchorPosition;
+            set { maxAnchorPosition = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         int left = 960;
+        public int Left
+        {
+            get => left;
+            set { left = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         int right = 960;
+        public int Right
+        {
+            get => right;
+            set { right = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         int top = 540;
+        public int Top
+        {
+            get => top;
+            set { top = value; shouldUpdate = true; }
+        }
 
         [SerializeField]
         int bottom = 540;
+        public int Bottom
+        {
+            get => bottom;
+            set { bottom = value; shouldUpdate = true; }
+        }
 
         Vector2Int previousScreenSize;
+        bool shouldUpdate;
 
         void Update()
         {
-            if (previousScreenSize.x == Screen.width
-                && previousScreenSize.y == Screen.height)
+            if (!shouldUpdate)
             {
+                if (previousScreenSize.x == Screen.width
+                    && previousScreenSize.y == Screen.height)
+                {
 #if !UNITY_EDITOR
-                return;
+                    return;
 #endif
+                }
             }
             previousScreenSize = new Vector2Int(Screen.width, Screen.height);
+            shouldUpdate = false;
 
             var scale = GetScale();
             var referenceScreenSize = new Vector2(
