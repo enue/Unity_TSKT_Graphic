@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿#nullable enable
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if TSKT_GRAPHIC_SUPPORT_UNITASK
+using Cysharp.Threading.Tasks;
+#endif
 
 namespace TSKT
 {
@@ -32,5 +36,18 @@ namespace TSKT
             }
             callback(texture);
         }
+
+#if TSKT_GRAPHIC_SUPPORT_UNITASK
+        public static UniTask<Texture2D> CaptureScreenshot(int width, int height, MonoBehaviour monoBehaviour)
+        {
+            var completion = new UniTaskCompletionSource<Texture2D>();
+            monoBehaviour.StartCoroutine(CaptureScreenshot(width, height, _ =>
+            {
+                completion.TrySetResult(_);
+            }));
+
+            return completion.Task;
+        }
+#endif
     }
 }

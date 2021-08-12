@@ -1,6 +1,8 @@
 {
     "name": "TSKT.Graphic",
-    "references": [],
+    "references": [
+        "UniTask"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -8,5 +10,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [
+        {
+            "name": "com.cysharp.unitask",
+            "expression": "",
+            "define": "TSKT_GRAPHIC_SUPPORT_UNITASK"
+        }
+    ],
+    "noEngineReferences": false
 }
