@@ -16,7 +16,7 @@ namespace TSKT
             Graphics.Blit(texture, rt);
             RenderTexture.active = rt;
 
-            texture.Resize(width, height);
+            texture.Reinitialize(width, height);
             texture.ReadPixels(new Rect(0, 0, texture.width, texture.height), 0, 0);
             texture.Apply();
 
