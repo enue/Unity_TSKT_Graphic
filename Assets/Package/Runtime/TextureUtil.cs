@@ -48,6 +48,16 @@ namespace TSKT
 
             return completion.Task;
         }
+
+        public static async UniTask<Texture2D> CaptureScreenshot(int width, int height)
+        {
+            var obj = new GameObject();
+            Object.DontDestroyOnLoad(obj);
+            var capturer = obj.AddComponent<Capturer>();
+            var result = await CaptureScreenshot(width, height, capturer);
+            Object.Destroy(obj);
+            return result;
+        }
 #endif
     }
 }
