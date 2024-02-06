@@ -2,9 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-#if TSKT_GRAPHIC_SUPPORT_UNITASK
-using Cysharp.Threading.Tasks;
-#endif
 
 namespace TSKT
 {
@@ -24,40 +21,16 @@ namespace TSKT
             RenderTexture.active = null;
         }
 
-        public static IEnumerator CaptureScreenshot(int width, int height, System.Action<Texture2D> callback)
+        public static async Awaitable<Texture2D> CaptureScreenshot(int width, int height)
         {
-            // UniTaskのWaitForEndOfFrameはCaptureScreenshotAsTextureに非対応なのでコルーチンを使う
-            yield return new WaitForEndOfFrame();
+            await Awaitable.EndOfFrameAsync();
             var texture = ScreenCapture.CaptureScreenshotAsTexture();
 
             if (texture.width != width || texture.height != height)
             {
                 Resize(ref texture, width, height);
             }
-            callback(texture);
+            return texture;
         }
-
-#if TSKT_GRAPHIC_SUPPORT_UNITASK
-        public static UniTask<Texture2D> CaptureScreenshot(int width, int height, MonoBehaviour monoBehaviour)
-        {
-            var completion = new UniTaskCompletionSource<Texture2D>();
-            monoBehaviour.StartCoroutine(CaptureScreenshot(width, height, _ =>
-            {
-                completion.TrySetResult(_);
-            }));
-
-            return completion.Task;
-        }
-
-        public static async UniTask<Texture2D> CaptureScreenshot(int width, int height)
-        {
-            var obj = new GameObject();
-            Object.DontDestroyOnLoad(obj);
-            var capturer = obj.AddComponent<Capturer>();
-            var result = await CaptureScreenshot(width, height, capturer);
-            Object.Destroy(obj);
-            return result;
-        }
-#endif
     }
 }

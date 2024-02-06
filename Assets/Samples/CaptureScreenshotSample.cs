@@ -1,16 +1,15 @@
-﻿using System.Collections;
+﻿#nullable enable
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cysharp.Threading.Tasks;
 
 namespace TSKT
 {
     public class CaptureScreenshotSample : MonoBehaviour
     {
-        IEnumerator Start()
+        async Awaitable Start()
         {
-            Texture2D texture = null;
-            yield return TextureUtil.CaptureScreenshot(100, 100, _ => texture = _);
+            var texture = await TextureUtil.CaptureScreenshot(100, 100);
             var bytes = texture.EncodeToJPG();
             System.IO.File.WriteAllBytes("ss.jpg", bytes);
             A();
@@ -18,7 +17,7 @@ namespace TSKT
 
         async void A()
         {
-            var texture = await TextureUtil.CaptureScreenshot(100, 100, this);
+            var texture = await TextureUtil.CaptureScreenshot(100, 100);
             var bytes = texture.EncodeToJPG();
             System.IO.File.WriteAllBytes("ss2.jpg", bytes);
         }
