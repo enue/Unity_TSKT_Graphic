@@ -57,6 +57,11 @@ namespace TSKT
             }
         }
 
+        public static string ToBase64(Texture2D source)
+        {
+            var jpg = source.EncodeToJPG();
+            return ToBase64(jpg);
+        }
         public static string ToBase64(byte[] bytes)
         {
             System.Span<byte> buffer = stackalloc byte[Base64.GetMaxEncodedToUtf8Length(bytes.Length)];
