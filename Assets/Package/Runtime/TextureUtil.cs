@@ -57,6 +57,15 @@ namespace TSKT
             }
         }
 
+        public static async Awaitable<string> CaptureScreenshotAsBase64String(int width, int height)
+        {
+            var size = Shrink(Screen.width, Screen.height, width, height);
+            var texture = await CaptureScreenshot((int)size.x, (int)size.y);
+            var result = ToBase64(texture);
+            Object.Destroy(texture);
+            return result;
+        }
+
         public static string ToBase64(Texture2D source)
         {
             var jpg = source.EncodeToJPG();
