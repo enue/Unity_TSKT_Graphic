@@ -29,9 +29,9 @@ namespace TSKT
 
             if (QualitySettings.activeColorSpace == ColorSpace.Linear)
             {
-		        var newScreenShot = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
-		        newScreenShot.SetPixels32(texture.GetPixels32());
-		        newScreenShot.Apply();
+                var newScreenShot = new Texture2D(texture.width, texture.height, TextureFormat.RGBA32, false);
+                newScreenShot.SetPixels32(texture.GetPixels32());
+                newScreenShot.Apply();
 
                 Object.Destroy(texture);
                 texture = newScreenShot;
